@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mantra 108 Counter</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5efe6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+}
+
+h1 {
+    font-size: 24px;
+}
+
+#counter {
+    font-size: 28vw;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+input {
+    width: 80px;
+    font-size: 18px;
+    text-align: center;
+    padding: 5px;
+}
+
+button {
+    font-size: 18px;
+    padding: 10px 15px;
+    margin: 8px;
+    border: none;
+    border-radius: 8px;
+    background: #333;
+    color: white;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+.progress-container {
+    width: 80%;
+    height: 10px;
+    background: #ddd;
+    border-radius: 10px;
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #333;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Mantra 108 Counter</h1>
+
+<div id="counter">0</div>
+
+<div>
+    Seconds per mantra:
+    <input type="number" id="secondsInput" value="2" min="1">
+</div>
+
+<div>
+    <button onclick="startCounter()">Start</button>
+    <button onclick="pauseCounter()">Pause</button>
+    <button onclick="resetCounter()">Reset</button>
+</div>
+
+<div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<script>
+let count = 0;
+let maxCount = 108;
+let timer = null;
+
+function startCounter() {
+    if (timer) return;
+
+    let seconds = parseInt(document.getElementById("secondsInput").value);
+    if (!seconds || seconds < 1) seconds = 1;
+
+    timer = setInterval(() => {
+        if (count < maxCount) {
+            count++;
+            document.getElementById("counter").innerText = count;
+
+            let percent = (count / maxCount) * 100;
+            document.getElementById("progressBar").style.width = percent + "%";
+        } else {
+            pauseCounter();
+        }
+    }, seconds * 1000);
+}
+
+function pauseCounter() {
+    clearInterval(timer);
+    timer = null;
+}
+
+function resetCounter() {
+    pauseCounter();
+    count = 0;
+    document.getElementById("counter").innerText = 0;
+    document.getElementById("progressBar").style.width = "0%";
+}
+</script>
+
+</body>
+</html>
